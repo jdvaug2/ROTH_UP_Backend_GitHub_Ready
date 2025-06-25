@@ -1,4 +1,13 @@
-def get_adjusted_brackets(filing_status: str, year: int, inflation_rate: float, rate_shift: float):
+def get_adjusted_brackets(
+    filing_status: str,
+    year: int,
+    inflation_rate: float,
+    rate_shift: float,
+    custom_brackets: list = None
+):
+    if custom_brackets and len(custom_brackets) > 0:
+        return custom_brackets
+
     base_brackets = {
         "married": [
             (0, 22000, 0.10),
@@ -17,7 +26,7 @@ def get_adjusted_brackets(filing_status: str, year: int, inflation_rate: float, 
             (182101, 231250, 0.32),
             (231251, 578125, 0.35),
             (578126, float("inf"), 0.37),
-        ]
+        ],
     }
 
     adjusted = []
@@ -27,4 +36,5 @@ def get_adjusted_brackets(filing_status: str, year: int, inflation_rate: float, 
             round(high * (1 + inflation_rate) ** (year - 2025)),
             round(rate * (1 + rate_shift), 4)
         ))
+
     return adjusted
