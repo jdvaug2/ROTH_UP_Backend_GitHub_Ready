@@ -29,12 +29,22 @@ def get_adjusted_brackets(
         ],
     }
 
+    MAX_INFLATION = 0.50   # 50%
+    MAX_RATE_SHIFT = 0.50  # 50%
+
+    # Clamp values
+    inflation = min(inflation_rate, MAX_INFLATION)
+    rate_shift = min(rate_shift, MAX_RATE_SHIFT)
+
     adjusted = []
     for low, high, rate in base_brackets[filing_status]:
-        adjusted.append((
-            round(low * (1 + inflation_rate) ** (year - 2025)),
-            round(high * (1 + inflation_rate) ** (year - 2025)),
-            round(rate * (1 + rate_shift), 4)
-        ))
+        new_low = round(low * (1 + inflation) ** (year - 2025))
+        new_rate = round(rate * (1 + rate_shift), 4)
+
+        if high == float("inf"):
+         adjusted.append((new_low, float("inf"), new_rate))
+        else:
+         new_high = round(high * (1 + inflation) ** (year - 2025))
+         adjusted.append((new_low, new_high, new_rate))
 
     return adjusted
