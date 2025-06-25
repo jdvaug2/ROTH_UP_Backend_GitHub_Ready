@@ -1,4 +1,4 @@
-from api.utils.tax_brackets import get_adjusted_brackets
+from api_utils.tax_brackets import get_adjusted_brackets
 # In projection loop
 brackets = get_adjusted_brackets(
     year, data.current_year, data.filing_status,
