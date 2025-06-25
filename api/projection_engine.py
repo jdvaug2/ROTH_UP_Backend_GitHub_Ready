@@ -18,12 +18,11 @@ class ProjectionInput(BaseModel):
 @router.post("/project")
 def simulate_projection(data: ProjectionInput):
     brackets = get_adjusted_brackets(
-        data.current_year,
-        data.current_year,
-        data.filing_status,
-        data.bracket_inflation_pct,
-        data.bracket_rate_shift_pct,
-        data.custom_future_brackets
-    )
+    data.filing_status,
+    data.current_year,
+    data.bracket_inflation_pct,
+    data.bracket_rate_shift_pct,
+    data.custom_future_brackets
+)
 
     taxable_income = data.retirement
